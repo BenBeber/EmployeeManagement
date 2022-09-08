@@ -12,18 +12,16 @@ import javax.validation.constraints.NotNull;
 @Setter
 @ToString
 @Entity
-@EqualsAndHashCode
-@Table(name = "employess")
+@Table(name = "employees")
 public class Employee {
 
-    @ToString.Include
+    @Setter(AccessLevel.NONE)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Long id;
 
     @ToString.Include
-    @NotNull
     @NotBlank
     private String firstName;
 
@@ -32,14 +30,8 @@ public class Employee {
     @NotNull
     private String lastName;
 
-    @ToString.Include
     @Email
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    public Employee(String firstName, String lastName, String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-    }
 }

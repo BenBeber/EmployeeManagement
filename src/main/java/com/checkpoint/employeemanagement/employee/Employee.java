@@ -31,6 +31,8 @@ public class Employee {
     private String lastName;
 
     @Email
+    @NotNull
+    @NotBlank
     @Column(nullable = false, unique = true)
     private String email;
 

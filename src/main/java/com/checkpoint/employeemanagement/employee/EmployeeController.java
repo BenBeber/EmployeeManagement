@@ -24,9 +24,9 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Employee> getById(@PathVariable long id) {
+    public Employee getById(@PathVariable long id) {
         Employee employee = service.getEmployeeById(id);
-        return new ResponseEntity<>(employee,HttpStatus.FOUND);
+        return employee;
     }
 
     @GetMapping("/by-email")
@@ -48,8 +48,8 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id,@RequestBody Employee employee) {
-        Employee updateEmployee = service.updateEmployeeInfo(employee);
+    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id,@Valid @RequestBody Employee employee) {
+        Employee updateEmployee = service.updateEmployeeInfo(id,employee);
         return new ResponseEntity<>(updateEmployee,HttpStatus.OK);
     }
 

@@ -1,41 +1,65 @@
 import React, { useEffect, useState, useMemo } from "react";
-import axios from "axios";
 import Table from "./Table";
-import { deleteEmployee } from "./Employee-Components/Actions";
+import { deleteEmployee, getEmployees } from "./Employee-Components/Actions";
+import { useNavigate } from "react-router-dom";
 
 
- function Home (){
-  
-const [employees,setEmployeesData] = useState([]);
+function Home() {
+
+    const [employees, setEmployees] = useState([]);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        (async () => {
+            getEmployeesData();
+        })();
+    }, []);
 
 
-useEffect(() => {
-  (async () => {
-    const result = await axios("http://localhost:8080");
-    setEmployeesData(result.data);
-  })();
-}, []);
+    const getEmployeesData = async () => {
+        const res = await getEmployees();
+        setEmployees(res.data);
+    }
+
+    const handleDelete = async (id) => {
+        await deleteEmployee(id);
+        getEmployeesData();
+    }
+
+    const handleUpdate = (id) => {
+        console.log(id);
+        navigate(`/update/${id}`,{state:{ id:id }});
+    }
+
+    // const handleUpdate = (values) => {
+    //     console.log(values);
+    //     navigate(`/update/${values.id}`)
+    // };
 
 
 
-
-
-const column = useMemo(
-() => [
-  { Header:"Id",accessor:"id" },
-  { Header: "First name", accessor: "firstName"},
-  { Header:"Last Name", accessor:"lastName"},
-  {Header: "Email", accessor: "email" },
-  {Header:"Actions", Cell: (props) => (<button onClick={()=>deleteEmployee(props.row.values.id)} className="btn btn-danger">Delete</button>)},
-],
-[]
-);
+    const column = useMemo(
+        () => [
+            { Header: "Id", accessor: "id" },
+            { Header: "First name", accessor: "firstName" },
+            { Header: "Last Name", accessor: "lastName" },
+            { Header: "Email", accessor: "email" },
+            { Header: "Actions", 
+              Cell: (props) => ( <div>
+                                    <button onClick={() => handleDelete(props.row.values.id) } className="btn btn-warning">Delete</button> {"  "}
+                                    <button onClick={() => handleUpdate(props.row.values.id)} className="btn btn-info">Edit</button>
+                                </div>  
+                            ) 
+            },
+        ],
+        []
+    );
 
     return (
-      <div className="Home" >
-        <h1 style={{textAlign: "center"}} >Home</h1>
-        <Table columns={column} data={employees} />
-      </div>
-      );
-    }  
-    export default Home;
+        <div className="Home" >
+            <h1 style={{ textAlign: "center" }} >Home</h1>
+            <Table columns={column} data={employees} />
+        </div>
+    );
+}
+export default Home;

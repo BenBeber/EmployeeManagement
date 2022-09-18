@@ -44,7 +44,7 @@ public class EmployeeService {
                 .orElseThrow(()->new UserNotFoundException("Employee with id "+id+" not found"));
     }
 
-    public Employee updateEmployeeInfo(Employee employee) {
+    public Employee updateEmployeeInfo(Long id,Employee employee) {
         if (employeeRepository.findById(employee.getId()).isEmpty())
             throw new UserNotFoundException("msg");
         return employeeRepository.save(employee);

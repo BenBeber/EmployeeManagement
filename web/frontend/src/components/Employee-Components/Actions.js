@@ -19,7 +19,7 @@ export const addNewEmployee = async (employee) => {
     return res;
 }
 
-export const UpdateEmployee = async(id,employee) => {
+export const updateEmp = async(id,employee) => {
     const res = await axios.put(`http://localhost:8080/${id}`,employee);
     return res;
 }

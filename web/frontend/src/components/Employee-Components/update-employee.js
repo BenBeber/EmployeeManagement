@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "../css/styles.css";
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { getEmployeeById } from "./Actions";
+import { useLocation, useNavigate } from 'react-router-dom';
+import { getEmployeeById ,updateEmp} from "./Actions";
 
 export default function UpdateEmployee() {
-    //const {id} = useParams();
     const location = useLocation();
     let navigate = useNavigate();
 
@@ -17,10 +16,10 @@ export default function UpdateEmployee() {
     const {id,firstName, lastName, email } = employee;
        
     
-    const Submit = async(event) => {
+    const HandleSubmit = async(event) => {
         console.log(employee);
         event.preventDefault();
-        await UpdateEmployee(id,employee);
+        updateEmp(id,employee);
         navigate("/");
     }
 
@@ -43,7 +42,7 @@ export default function UpdateEmployee() {
             <div className="row">
                 <div className="card col-md-6 offset-md-3 offset-md-3"></div>
                 <h2 className="text-center mt-3">Update Employee Information</h2>
-                <form onSubmit={Submit}>
+                <form onSubmit={HandleSubmit}>
                     <label>Employee ID</label>
                     <input
                         type="text"

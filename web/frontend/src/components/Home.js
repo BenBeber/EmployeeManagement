@@ -31,13 +31,6 @@ function Home() {
         navigate(`/update/${id}`,{state:{ id:id }});
     }
 
-    // const handleUpdate = (values) => {
-    //     console.log(values);
-    //     navigate(`/update/${values.id}`)
-    // };
-
-
-
     const column = useMemo(
         () => [
             { Header: "Id", accessor: "id" },
